@@ -8,11 +8,11 @@ parent-id: lab-ratingapp
 ### Create MongoDB from template
 
 {% collapsible %}
-Azure Red Hat OpenShift provides many container images and templates to make creating new applications & services easy. The template provides parameter fields to define all the mandatory environment variables (user, password, database name, etc) with predefined defaults including auto-generation of password values. It will also define both a deployment configuration and a service.
+Red Hat OpenShift provides many container images and templates to make creating new applications & services easy. The template provides parameter fields to define all the mandatory environment variables (user, password, database name, etc) with predefined defaults including auto-generation of password values. It will also define both a deployment configuration and a service.
 
 For this exercise we will use the following template:
 
-* `mongodb-persistent` uses a persistent volume store for the database data which means the data will survive a pod restart. Using persistent volumes requires a persistent volume pool be defined in the Azure Red Hat OpenShift deployment.
+* `mongodb-persistent` uses a persistent volume store for the database data which means the data will survive a pod restart. Using persistent volumes requires a persistent volume pool be defined in the Red Hat OpenShift deployment.
 
 > **Hint** You can retrieve a list of templates using the command below. The templates are preinstalled in the `openshift` namespace.
 > ```sh
