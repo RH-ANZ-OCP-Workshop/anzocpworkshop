@@ -97,7 +97,6 @@
         <div class="overview">
             <span class="toggle">close</span>
             <header class="header">
-  <img alt="Microsoft Azure" style="width: 140px; vertical-align: middle" src="img/msazure_logo.png"/>
   <img alt="Red Hat OpenShift" style="width: 100px; vertical-align: middle" src="img/redhat-openshift.png"/>
 </header>
             <ul id="nav">
@@ -169,7 +168,7 @@
     </li>
     
     <li  class="parent">
-        <a href="#lab-clusterapp">Lab 2 - ARO Internals</a>
+        <a href="#lab-clusterapp">Lab 2 - OpenShift Internals</a>
         
             <ul>
                 
@@ -237,7 +236,7 @@
 </div>
 
 <p id="copyright-notice">
-    Azure® is a registered trademark of Microsoft Corporation. Red Hat, Red Hat Enterprise Linux, the Shadowman logo, and OpenShift, are trademarks of Red Hat, Inc.
+    Red Hat, Red Hat Enterprise Linux, the Shadowman logo, and OpenShift, are trademarks of Red Hat, Inc.
 </p>
         </div>
 
@@ -256,22 +255,22 @@
                     
                 
 
-            <p><a href="https://azure.microsoft.com/en-us/services/openshift/">Azure Red Hat OpenShift</a> is a fully managed Red Hat OpenShift service in Azure that is jointly engineered and supported by Microsoft and Red Hat. In this lab, you’ll go through a set of tasks that will help you understand some of the concepts of deploying and securing container based applications on top of Azure Red Hat OpenShift.</p>
+            <p><a href="https://www.redhat.com/en/technologies/cloud-computing/openshift">Red Hat OpenShift</a> is the industry’s leading hybrid cloud application platform powered by Kubernetes. OpenShift delivers a consistent experience across public cloud, on-premise, hybrid cloud, or edge architecture. In this lab, you’ll go through a set of tasks that will help you understand some of the concepts of deploying and securing container based applications on top of Red Hat OpenShift.</p>
 
 <p>You can use this guide as an OpenShift tutorial and as study material to help you get started to learn OpenShift.</p>
 
 <p>Some of the things you’ll be going through:</p>
 
 <ul>
-  <li>Creating a <a href="https://docs.openshift.com/aro/dev_guide/projects.html">project</a> on the Azure Red Hat OpenShift Web Console</li>
-  <li>Deploying a MongoDB container that uses Azure Disks for <a href="https://docs.openshift.com/aro/dev_guide/persistent_volumes.html">persistent storage</a></li>
-  <li>Restoring data into the MongoDB container by <a href="https://docs.openshift.com/aro/dev_guide/executing_remote_commands.html">executing commands</a> on the Pod</li>
-  <li>Deploying a Node JS API and frontend app from Git Hub using <a href="https://docs.openshift.com/aro/creating_images/s2i.html">Source-To-Image (S2I)</a></li>
-  <li>Exposing the web application frontend using <a href="https://docs.openshift.com/aro/dev_guide/routes.html">Routes</a></li>
-  <li>Creating a <a href="https://docs.openshift.com/aro/admin_guide/managing_networking.html#admin-guide-networking-networkpolicy">network policy</a> to control communication between the different tiers in the application</li>
+  <li>Creating a <a href="https://docs.openshift.com/container-platform/latest/applications/projects/working-with-projects.html">project</a> on the Red Hat OpenShift Web Console</li>
+  <li>Deploying a MongoDB container that uses cloud storage for <a href="https://docs.openshift.com/container-platform/latest/storage/understanding-persistent-storage.html">persistence</a></li>
+  <li>Restoring data into the MongoDB container by <a href="https://docs.openshift.com/container-platform/latest/nodes/containers/nodes-containers-remote-commands.html">executing commands</a> on the Pod</li>
+  <li>Deploying a Node JS API and frontend app from Git Hub using <a href="https://docs.openshift.com/container-platform/latest/openshift_images/create-images.html">Source-To-Image (S2I)</a></li>
+  <li>Exposing the web application frontend using <a href="https://docs.openshift.com/container-platform/latest/networking/routes/route-configuration.html">Routes</a></li>
+  <li>Creating a <a href="https://docs.openshift.com/container-platform/latest/networking/network_policy/about-network-policy.html">network policy</a> to control communication between the different tiers in the application</li>
 </ul>
 
-<p>You’ll be doing the majority of the labs using the OpenShift CLI, but you can also accomplish them using the Azure Red Hat OpenShift web console.</p>
+<p>You’ll be doing the majority of the labs using the OpenShift CLI, but you can also accomplish them using the Red Hat OpenShift web console.</p>
 
         </section>
     
@@ -471,7 +470,7 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
                     <h2>Application Overview</h2>
                 
 
-            <p>You will be deploying a ratings application on Azure Red Hat OpenShift.</p>
+            <p>You will be deploying a ratings application on Red Hat OpenShift.</p>
 
 <p><img src="media/app-overview.png" alt="Application diagram" /></p>
 
@@ -487,15 +486,15 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
   <tbody>
     <tr>
       <td>A public facing API <code class="language-plaintext highlighter-rouge">rating-api</code></td>
-      <td><a href="https://github.com/microsoft/rating-api">GitHub repo</a></td>
+      <td><a href="https://github.com/RH-ANZ-Workshops/rating-api">GitHub repo</a></td>
     </tr>
     <tr>
       <td>A public facing web frontend <code class="language-plaintext highlighter-rouge">rating-web</code></td>
-      <td><a href="https://github.com/adriangigante/rating-web">GitHub repo</a></td>
+      <td><a href="https://github.com/RH-ANZ-Workshops/rating-web">GitHub repo</a></td>
     </tr>
     <tr>
       <td>A MongoDB with pre-loaded data</td>
-      <td><a href="https://github.com/microsoft/rating-api/raw/master/data.tar.gz">Data</a></td>
+      <td><a href="https://github.com/RH-ANZ-Workshops/rating-api/raw/master/data.tar.gz">Data</a></td>
     </tr>
   </tbody>
 </table>
@@ -515,9 +514,12 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
                     <h2>Cluster Access</h2>
                 
 
-            <h3 id="access-your-azure-red-hat-openshift-cluster">Access your Azure Red Hat OpenShift Cluster</h3>
+            <h3 id="ssh-session">SSH Session</h3>
+<p>So our first step will be to SSH into the jump host. Details will be provided by the instructor with the command to run and the required password.</p>
 
-<p>We’ll start by getting into our cluster.</p>
+<p>It will look similar to this: <strong>ssh student01@3.104.30…</strong></p>
+
+<p><img src="media/jumpssh.png" alt="Jump host SSH" /></p>
 
 <h2 id="connect-to-the-cluster">Connect to the cluster</h2>
 
@@ -531,25 +533,13 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
   <div class="collapsible-content">
     <!-- Begin parsedText -->
     
-<blockquote>
-  <p><strong>Note</strong> Be sure to logout of any Microsoft accounts prior to accessing the login screens or you will not be given the option to login with the account we provide.</p>
-</blockquote>
+<p>Using console URL link provided, you will be directed to the login page. Enter your login details that have also been provided by the instructor.</p>
 
-<p>Using console URL link provided, you will be directed to the login page. Select the <strong>RHPDS-AAD</strong> option.</p>
-
-<p><img src="media/aro-loginpage.png" alt="ARO Login Page" /></p>
-
-<p>You will be forwarded to a Microsoft login screen - select <strong>Use another account</strong> if you have other Microsoft account listed - where you will use the login details provided.</p>
-
-<p><img src="media/aro-loginpageMS1.png" alt="Microsoft Login Page" /> <img src="media/aro-loginpageMS2.png" alt="Microsoft User Login Page" /> <img src="media/aro-loginpageMS3.png" alt="Microsoft Password Login Page" /></p>
+<p><img src="media/loginpage.png" alt="Login Page" /></p>
 
 <p>From here you will be taken to the OpenShift web console landing page.</p>
 
-<blockquote>
-  <p><strong>Note</strong> Some browsers may take you back to the initial OpenShift login screen where you will need select the RHPDS-AAD icon once more.</p>
-</blockquote>
-
-<p><img src="media/aro-landing.png" alt="ARO Landing Page" /></p>
+<p><img src="media/landing.png" alt="Landing Page" /></p>
 
 
     <!-- End parsedText -->
@@ -633,10 +623,11 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
 
 <blockquote>
   <p><strong>Resources</strong></p>
+</blockquote>
+
+<blockquote>
   <ul>
-    <li><a href="https://docs.openshift.com/aro/getting_started/access_your_services.html">ARO Documentation - Access your services</a></li>
-    <li><a href="https://docs.openshift.com/aro/cli_reference/get_started_cli.html">ARO Documentation - Getting started with the CLI</a></li>
-    <li><a href="https://docs.openshift.com/aro/dev_guide/projects.html">ARO Documentation - Projects</a></li>
+    <li><a href="https://docs.openshift.com/container-platform/latest/applications/projects/working-with-projects.html">Projects</a></li>
   </ul>
 </blockquote>
 
@@ -659,12 +650,12 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
   <div class="collapsible-content">
     <!-- Begin parsedText -->
     
-<p>Azure Red Hat OpenShift provides many container images and templates to make creating new applications &amp; services easy. The template provides parameter fields to define all the mandatory environment variables (user, password, database name, etc) with predefined defaults including auto-generation of password values. It will also define both a deployment configuration and a service.</p>
+<p>Red Hat OpenShift provides many container images and templates to make creating new applications &amp; services easy. The template provides parameter fields to define all the mandatory environment variables (user, password, database name, etc) with predefined defaults including auto-generation of password values. It will also define both a deployment configuration and a service.</p>
 
 <p>For this exercise we will use the following template:</p>
 
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">mongodb-persistent</code> uses a persistent volume store for the database data which means the data will survive a pod restart. Using persistent volumes requires a persistent volume pool be defined in the Azure Red Hat OpenShift deployment.</li>
+  <li><code class="language-plaintext highlighter-rouge">mongodb-persistent</code> uses a persistent volume store for the database data which means the data will survive a pod restart. Using persistent volumes requires a persistent volume pool be defined in the Red Hat OpenShift deployment.</li>
 </ul>
 
 <blockquote>
@@ -753,10 +744,11 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
 
 <blockquote>
   <p><strong>Resources</strong></p>
+</blockquote>
+
+<blockquote>
   <ul>
-    <li><a href="https://docs.openshift.com/aro/using_images/db_images/mongodb.html">ARO Documentation - MongoDB</a></li>
-    <li><a href="https://docs.openshift.com/aro/using_images/db_images/mongodb.html#running-mongodb-commands-in-containers">ARO Documentation - Running MongoDB Commands…</a></li>
-    <li><a href="https://docs.openshift.com/aro/dev_guide/templates.html">ARO Documentation - Templates</a></li>
+    <li><a href="https://docs.openshift.com/container-platform/latest/openshift_images/using-templates.html">Templates</a></li>
   </ul>
 </blockquote>
 
@@ -930,7 +922,7 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
 
 <p><img src="media/rating-api-github-webhook-url.png" alt="Rating API GitHub trigger url" /></p>
 
-<p>Replace the <code class="language-plaintext highlighter-rouge">&lt;secret&gt;</code> placeholder with the secret you retrieved in the previous step to have a URL similar to <code class="language-plaintext highlighter-rouge">https://api.qv4g35sq.westeurope.aroapp.io:6443/apis/build.openshift.io/v1/namespaces/workshop01/buildconfigs/rating-api/webhooks/zLKX0A_0CQs6qWNwQqpV/github</code>. You’ll use this URL to setup the webhook on your GitHub repository.</p>
+<p>Replace the <code class="language-plaintext highlighter-rouge">&lt;secret&gt;</code> placeholder with the secret you retrieved in the previous step to have a URL similar to <code class="language-plaintext highlighter-rouge">https://api.qv4g35sq.westeurope.app.io:6443/apis/build.openshift.io/v1/namespaces/workshop01/buildconfigs/rating-api/webhooks/zLKX0A_0CQs6qWNwQqpV/github</code>. You’ll use this URL to setup the webhook on your GitHub repository.</p>
 
 <p>In your GitHub repository (e.g. <code class="language-plaintext highlighter-rouge">https://github.com/&lt;your GitHub username&gt;/rating-api</code>), navigate to <strong>Settings -&gt; Webhooks</strong> and select <strong>Add Webhook</strong>.</p>
 
@@ -970,8 +962,8 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
 <blockquote>
   <p><strong>Resources</strong></p>
   <ul>
-    <li><a href="https://docs.openshift.com/aro/creating_images/s2i.html">ARO Documentation - Creating Images with S2I</a></li>
-    <li><a href="https://docs.openshift.com/aro/dev_guide/builds/triggering_builds.html">ARO Documentation - Triggering builds</a></li>
+    <li><a href="https://docs.openshift.com/container-platform/latest/openshift_images/create-images.html">Creating Images with S2I</a></li>
+    <li><a href="https://docs.openshift.com/container-platform/latest/cicd/builds/triggering-builds-build-hooks.html">Triggering builds</a></li>
   </ul>
 </blockquote>
 
@@ -1077,7 +1069,7 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
 <blockquote>
   <p><strong>Note</strong> Certain browsers are configured to default to HTTPS. Please note that the web app we are creating uses HTTP for simplicity. You may need to manually force the non-secure HTTP usage.</p>
 
-  <p>Please also note that the fully qualified domain name (FQDN) is comprised of the application name and project name by default. The remainder of the FQDN, the subdomain, is your Azure Red Hat OpenShift cluster specific apps subdomain.</p>
+  <p>Please also note that the fully qualified domain name (FQDN) is comprised of the application name and project name by default. The remainder of the FQDN, the subdomain, is your Red Hat OpenShift cluster specific apps subdomain.</p>
 </blockquote>
 
 <p>You can also retrieve this from the web console by toggling to the <strong>Developer</strong> view, then navigating to <strong>Topology</strong> and selecting the “Open URL” icon at the top right of the Deployment. Alternatively, you can select the rating-web Deployment and find the route in the lower right corner (you may need to scroll down).</p>
@@ -1144,7 +1136,7 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
 
 <p><img src="media/rating-web-github-webhook-url.png" alt="Rating Web GitHub trigger url" /></p>
 
-<p>Replace the <code class="language-plaintext highlighter-rouge">&lt;secret&gt;</code> placeholder with the secret you retrieved in the previous step to have a URL similar to <code class="language-plaintext highlighter-rouge">https://api.qv4g35sq.westeurope.aroapp.io:6443/apis/build.openshift.io/v1/namespaces/workshop01/buildconfigs/rating-web/webhooks/VZJewR0m1E65dBAv1IYM/github</code>. You’ll use this URL to setup the webhook on your GitHub repository.</p>
+<p>Replace the <code class="language-plaintext highlighter-rouge">&lt;secret&gt;</code> placeholder with the secret you retrieved in the previous step to have a URL similar to <code class="language-plaintext highlighter-rouge">https://api.qv4g35sq.westeurope.app.io:6443/apis/build.openshift.io/v1/namespaces/workshop01/buildconfigs/rating-web/webhooks/VZJewR0m1E65dBAv1IYM/github</code>. You’ll use this URL to setup the webhook on your GitHub repository.</p>
 
 <p>In your GitHub repository (e.g. <code class="language-plaintext highlighter-rouge">https://github.com/&lt;your GitHub username&gt;/rating-web</code>), navigate to <strong>Settings -&gt; Webhooks</strong> and select <strong>Add Webhook</strong>.</p>
 
@@ -1211,9 +1203,7 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
 <blockquote>
   <p><strong>Resources</strong></p>
   <ul>
-    <li><a href="https://docs.openshift.com/aro/creating_images/s2i.html">ARO Documentation - Creating Images with S2I</a></li>
-    <li><a href="https://docs.openshift.com/aro/dev_guide/builds/triggering_builds.html">ARO Documentation - Triggering builds</a></li>
-    <li><a href="https://docs.openshift.com/aro/dev_guide/routes.html">ARO Documentation - Routes</a></li>
+    <li><a href="https://docs.openshift.com/container-platform/latest/networking/routes/route-configuration.html">Routes</a></li>
   </ul>
 </blockquote>
 
@@ -1226,7 +1216,7 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
                     <h2>Create Network Policy</h2>
                 
 
-            <p>Now that you have the application working, it is time to apply some security hardening. You’ll use <a href="https://docs.openshift.com/aro/admin_guide/managing_networking.html#admin-guide-networking-networkpolicy">network policies</a> to restrict communication to the <code class="language-plaintext highlighter-rouge">rating-api</code>.</p>
+            <p>Now that you have the application working, it is time to apply some security hardening. You’ll use <a href="https://docs.openshift.com/container-platform/latest/networking/network_policy/about-network-policy.html">network policies</a> to restrict communication to the <code class="language-plaintext highlighter-rouge">rating-api</code>.</p>
 
 <h3 id="switch-to-the-cluster-console">Switch to the Cluster Console</h3>
 
@@ -1293,7 +1283,7 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
 <blockquote>
   <p><strong>Resources</strong></p>
   <ul>
-    <li><a href="https://docs.openshift.com/aro/admin_guide/managing_networking.html#admin-guide-networking-networkpolicy">ARO Documentation - Managing Networking with Network Policy</a></li>
+    <li><a href="https://docs.openshift.com/container-platform/latest/networking/network_policy/about-network-policy.html">Managing Network Policy</a></li>
   </ul>
 </blockquote>
 
@@ -1304,7 +1294,7 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
         <section id="lab-clusterapp" class="h1">
             
                     
-                    <h1 class="nocount">Lab 2 - ARO Internals</h1>
+                    <h1 class="nocount">Lab 2 - OpenShift Internals</h1>
                     
                 
 
@@ -1339,7 +1329,7 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
 
 <h3 id="about-ostoy">About OSToy</h3>
 
-<p>OSToy is a simple Node.js application that we will deploy to Azure Red Hat OpenShift. It is used to help us explore the functionality of Kubernetes. This application has a user interface which you can:</p>
+<p>OSToy is a simple Node.js application that we will deploy to Red Hat OpenShift. It is used to help us explore the functionality of Kubernetes. This application has a user interface which you can:</p>
 
 <ul>
   <li>write messages to the log (stdout / stderr)</li>
@@ -1398,7 +1388,7 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
 <p>You should receive the following response</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>oc new-project ostoy&lt;student#&gt;
-Now using project <span class="s2">"ostoy&lt;student#&gt;"</span> on server <span class="s2">"https://api.gz49n8jb.westeurope.aroapp.io:6443"</span><span class="nb">.</span>
+Now using project <span class="s2">"ostoy&lt;student#&gt;"</span> on server <span class="s2">"https://api.gz49n8jb.westeurope.app.io:6443"</span><span class="nb">.</span>
 </code></pre></div></div>
 
 <blockquote>
@@ -1543,10 +1533,10 @@ secret/ostoy-secret created
 <p>You should see the following response:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NAME          HOST/PORT                                                      PATH      SERVICES              PORT      TERMINATION   WILDCARD
-ostoy-route   ostoy-route-ostoy01.apps.qv4g35sq.westeurope.aroapp.io                   ostoy-frontend-svc    &lt;all&gt;                   None
+ostoy-route   ostoy-route-ostoy01.apps.qv4g35sq.westeurope.app.io                   ostoy-frontend-svc    &lt;all&gt;                   None
 </code></pre></div></div>
 
-<p>Copy <code class="language-plaintext highlighter-rouge">ostoy-route-ostoy&lt;student#&gt;.apps.qv4g35sq.westeurope.aroapp.io</code> from the command line and paste it into your browser and press enter.  You should see the homepage of our application.</p>
+<p>Copy <code class="language-plaintext highlighter-rouge">ostoy-route-ostoy&lt;student#&gt;.apps.qv4g35sq.westeurope.app.io</code> from the command line and paste it into your browser and press enter.  You should see the homepage of our application.</p>
 
 <p><img src="media/managedlab/10-ostoy-homepage.png" alt="Home Page" /></p>
 
@@ -1694,11 +1684,11 @@ stderr: Oh no! Error!
 
 <p><img src="media/managedlab/17-1-ostoy-storagepvc.png" alt="StoragePVC" /></p>
 
-<p>If you drill into <strong>ostoy-pvc</strong>, you will see <em>ReadWriteOnce</em> under <em>Access Modes</em>, which means that the volume can only be mounted to one node but the pod(s) can both read and write to that volume.  The default in ARO is for Persistent Volumes to be backed by Azure Disk, but it is possible to chose Azure Files so that you can use the RWX (Read-Write-Many) access mode.  (<a href="https://docs.openshift.com/aro/architecture/additional_concepts/storage.html#pv-access-modes">See here for more info on access modes</a>)</p>
+<p>If you drill into <strong>ostoy-pvc</strong>, you will see <em>ReadWriteOnce</em> under <em>Access Modes</em>, which means that the volume can only be mounted to one node but the pod(s) can both read and write to that volume.</p>
 
 <p>In the OSToy app click on <em>Persistent Storage</em> in the left menu.  In the “Filename” area enter a filename for the file you will create. (ie: “test-pv.txt”)</p>
 
-<p>Underneath that, in the “File Contents” box, enter text to be stored in the file. (ie: “Azure Red Hat OpenShift is the greatest thing since sliced bread!” or “test” :) ).  Then click “Create file”.</p>
+<p>Underneath that, in the “File Contents” box, enter text to be stored in the file. (ie: “Red Hat OpenShift is the greatest thing since sliced bread!” or “test” :) ).  Then click “Create file”.</p>
 
 <p><img src="media/managedlab/17-2-ostoy-createfile.png" alt="Create File" /></p>
 
@@ -1744,7 +1734,7 @@ $ oc rsh ostoy-frontend-5fc8d486dc-wsw24
 lost+found   test-pv.txt
 
 /var/demo_files $ cat test-pv.txt 
-Azure Red Hat OpenShift is the greatest thing since sliced bread!
+Red Hat OpenShift is the greatest thing since sliced bread!
 </code></pre></div></div>
 
 <p>Then exit the SSH session by typing <code class="language-plaintext highlighter-rouge">exit</code>. You will then be in your CLI.</p>
@@ -1892,7 +1882,7 @@ data:
 
 <p><img src="media/managedlab/4-ostoy-arch.png" alt="OSToy Diagram" /></p>
 
-<p>As can be seen in the image above we see we have defined at least 2 separate pods, each with its own service.  One is the frontend web application (with a service and a publicly accessible route) and the other is the backend microservice with a service object created so that the frontend pod can communicate with the microservice (across the pods if more than one).  Therefore this microservice is not accessible from outside this cluster, nor from other namespaces/projects (due to ARO’s network policy, <strong>ovs-networkpolicy</strong>).  The sole purpose of this microservice is to serve internal web requests and return a JSON object containing the current hostname and a randomly generated color string.  This color string is used to display a box with that color displayed in the tile titled “Intra-cluster Communication”.</p>
+<p>As can be seen in the image above we see we have defined at least 2 separate pods, each with its own service.  One is the frontend web application (with a service and a publicly accessible route) and the other is the backend microservice with a service object created so that the frontend pod can communicate with the microservice (across the pods if more than one).  Therefore this microservice is not accessible from outside this cluster, nor from other namespaces/projects (due to OpenShift network policy, <strong>ovs-networkpolicy</strong>).  The sole purpose of this microservice is to serve internal web requests and return a JSON object containing the current hostname and a randomly generated color string.  This color string is used to display a box with that color displayed in the tile titled “Intra-cluster Communication”.</p>
 
 <h3 id="networking">Networking</h3>
 
@@ -2105,6 +2095,13 @@ ostoy-microservice-86b4c6f559-p594d   1/1       Running   0          1h
   <img class="github-avatar" src="https://avatars.githubusercontent.com/SimonDelord?s=60&amp;v=4" />
   <span>
     <a href="http://github.com/SimonDelord">@SimonDelord</a>
+  </span>
+</div>
+
+<div class="github-contributor">
+  <img class="github-avatar" src="https://avatars.githubusercontent.com/alflang?s=60&amp;v=4" />
+  <span>
+    <a href="http://github.com/alflang">@alflang</a>
   </span>
 </div>
 
