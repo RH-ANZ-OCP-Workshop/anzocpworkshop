@@ -284,20 +284,10 @@
             <h4 id="github-account">GitHub Account</h4>
 <p>You will need a personal GitHub account for today’s workshop. If you don’t already have one, you can sign up for free <a href="https://github.com/join">here</a>.</p>
 
-<h4 id="ssh-client">SSH Client</h4>
-<p>You will also need a client to SSH into a jumphost for command line access. Linux and Mac systems tend to have one included, and one of the more popular clients for Windows is PuTTY that you can download <a href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">here</a>. More recently, Windows 10 offers OpenSSH that can be <a href="https://docs.microsoft.com/en-us/windows-server/administration/openssh/openssh_install_firstuse">installed as an optional feature</a>.</p>
-
 <h4 id="lab-setup">Lab Setup</h4>
-<p>Along with the web interface, we will be running commands directly against our cluster using a jump host. The SSH client mentioned above will be used to establish an SSH session to that jump host, and the diagram below provides a visual of how this hangs together.</p>
+<p>Within the web interface, we will be running commands directly against our cluster using what is known as the <a href="https://docs.openshift.com/container-platform/latest/web_console/web_terminal/installing-web-terminal.html">Web Terminal Operator</a>. This allows us to establish a session with the cluster using the currently logged in user, and all the required tooling (e.g. <a href="https://docs.openshift.com/container-platform/4.16/cli_reference/openshift_cli/getting-started-cli.html">oc</a> and <a href="https://kubernetes.io/docs/tasks/tools/">kubectl</a> command line tools) is made available.</p>
 
 <p><img src="media/diagram.png" alt="Diagram" /></p>
-
-<h4 id="ssh-session">SSH Session</h4>
-<p>So our first step will be to SSH into the jump host. Details will be provided by the instructor providing the command to run and the required password.</p>
-
-<p>It will look similar to this: <strong>ssh student01@3.104.30…</strong></p>
-
-<p><img src="media/jumpssh.png" alt="Jump host SSH" /></p>
 
         </section>
     
@@ -514,14 +504,7 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
                     <h2>Cluster Access</h2>
                 
 
-            <h3 id="ssh-session">SSH Session</h3>
-<p>So our first step will be to SSH into the jump host. Details will be provided by the instructor with the command to run and the required password.</p>
-
-<p>It will look similar to this: <strong>ssh student01@3.104.30…</strong></p>
-
-<p><img src="media/jumpssh.png" alt="Jump host SSH" /></p>
-
-<h2 id="connect-to-the-cluster">Connect to the cluster</h2>
+            <h2 id="connect-to-the-cluster">Connect to the cluster</h2>
 
 <p>The cluster web console’s URL will be listed as part of the lab Instructions provided by the instructor.</p>
 
@@ -558,7 +541,7 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
                     <h2>Create Project</h2>
                 
 
-            <h3 id="retrieve-the-login-command-and-token">Retrieve the login command and token</h3>
+            <h3 id="open-web-terminal-in-web-console-and-create-project">Open Web Terminal in web console and create project</h3>
 
 <!-- Begin collapsible container div -->
 <div class="collapsible-content-container">
@@ -568,51 +551,15 @@ ImageStream and Builds: <a href="https://cloudowski.com/articles/why-managing-co
   <div class="collapsible-content">
     <!-- Begin parsedText -->
     
-<p>Once you’re logged into the Web Console, click on the username on the top right, then click <strong>Copy Login Command</strong>.</p>
-
-<p><img src="media/login-command.png" alt="Copy login command link" /></p>
+<p>Once you’re logged into the Web Console, click on the <strong>Web Terminal icon</strong> at the top right. This will open a panel at the bottom prompting you to create your first project. In the <strong>Project name</strong> field, enter <strong>workshop&lt;student#&gt;</strong> using your student number as the suffix.</p>
 
 <blockquote>
-  <p><strong>Note</strong> Some browsers may take you back to the initial OpenShift login screen where you will need select the RHPDS-AAD icon once more.</p>
+  <p><strong>Note</strong> For example, if you are student 15, the entry would be workshop15</p>
 </blockquote>
 
-<p>Click <strong>Display Token</strong>, then copy the command in the section <strong>Log in with this token</strong>.</p>
+<p><img src="media/web-terminal.png" alt="Web Terminal" /></p>
 
-<p><img src="media/token.png" alt="Display token" /></p>
-
-<p><img src="media/login-command2.png" alt="Copy login command screen" /></p>
-
-<p>Take this login command and paste it into the SSH session we started on the jump host earlier in the prerequisites section.</p>
-
-<p><img src="media/oc-login.png" alt="OC Login through jump host" /></p>
-
-<p>We are now connected to our OpenShift cluster through the jump host.</p>
-
-
-    <!-- End parsedText -->
-  </div>
-  <!-- End collapsible container content div -->
-</div>
-<!-- End collapsible container div -->
-
-<h3 id="create-a-project">Create a project</h3>
-
-<!-- Begin collapsible container div -->
-<div class="collapsible-content-container">
-  <!-- Begin collapsible container button -->
-  <button class="toggle-collapsible">Toggle</button>
-  <!-- Begin collapsible container content div -->
-  <div class="collapsible-content">
-    <!-- Begin parsedText -->
-    
-<p>A project allows a community of users to organize and manage their content in isolation from other communities. To create a new project we run the <code class="language-plaintext highlighter-rouge">oc new-project</code> command followed by the name of the project we would like to create.</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>oc new-project workshop&lt;student#&gt;
-</code></pre></div></div>
-
-<p>For example, if you are student 15, the command would be <code class="language-plaintext highlighter-rouge">oc new-project workshop15</code></p>
-
-<p><img src="media/oc-newproject.png" alt="Create new project" /></p>
+<p>Once you click start, the Web Terminal will automatically be connected to the project you just created. You’ll notice the Web Console updates with that project as well.</p>
 
 
     <!-- End parsedText -->
@@ -1417,9 +1364,9 @@ Now using project <span class="s2">"ostoy&lt;student#&gt;"</span> on server <spa
 
 <p>Download the Kubernetes deployment object yamls from the following locations to jump host to a directory of your choosing - just remember where you placed them for the next step.</p>
 
-<p><code class="language-plaintext highlighter-rouge">wget https://raw.githubusercontent.com/brianstinehart/ocpworkshop/master/yaml/ostoy-fe-deployment.yaml</code></p>
+<p><code class="language-plaintext highlighter-rouge">curl -O https://raw.githubusercontent.com/RH-ANZ-Workshops/anzworkshop/main/yaml/ostoy-fe-deployment.yaml</code></p>
 
-<p><code class="language-plaintext highlighter-rouge">wget https://raw.githubusercontent.com/brianstinehart/ocpworkshop/master/yaml/ostoy-microservice-deployment.yaml</code></p>
+<p><code class="language-plaintext highlighter-rouge">curl -O https://raw.githubusercontent.com/RH-ANZ-Workshops/anzworkshop/main/yaml/ostoy-microservice-deployment.yaml</code></p>
 
 <!-- Begin collapsible container div -->
 <div class="collapsible-content-container">
@@ -1431,9 +1378,9 @@ Now using project <span class="s2">"ostoy&lt;student#&gt;"</span> on server <spa
     
 <p>Feel free to open them up and take a look at what we will be deploying. For simplicity of this lab we have placed all the Kubernetes objects we are deploying in one “all-in-one” yaml file.  Though in reality there are benefits to separating these out into individual yaml files.</p>
 
-<p><a href="https://github.com/brianstinehart/ocpworkshop/blob/master/yaml/ostoy-fe-deployment.yaml">ostoy-fe-deployment.yaml</a></p>
+<p><a href="https://raw.githubusercontent.com/RH-ANZ-Workshops/anzworkshop/main/yaml/ostoy-fe-deployment.yaml">ostoy-fe-deployment.yaml</a></p>
 
-<p><a href="https://github.com/brianstinehart/ocpworkshop/blob/master/yaml/ostoy-microservice-deployment.yaml">ostoy-microservice-deployment.yaml</a></p>
+<p><a href="https://raw.githubusercontent.com/RH-ANZ-Workshops/anzworkshop/main/yaml/ostoy-microservice-deployment.yaml">ostoy-microservice-deployment.yaml</a></p>
 
 
     <!-- End parsedText -->
